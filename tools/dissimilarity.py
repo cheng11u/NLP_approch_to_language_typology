@@ -1,6 +1,5 @@
 import numpy as np
 from abc import ABC, abstractmethod
-from forest.benchmarking.distance_measures import total_variation_distance
 
 class DissimilarityMeasure(ABC):
 
