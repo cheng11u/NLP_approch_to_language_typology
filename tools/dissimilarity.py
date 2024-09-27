@@ -15,8 +15,8 @@ class DissimilarityMeasure(ABC):
         return [[self.compare(v1, v2) for v2 in vectors] for v1 in vectors]
 
 
-class CosineSimilarity(DissimilarityMeasure):
 
+class CosineSimilarity(DissimilarityMeasure):
     def __init__(self):
         pass
 
