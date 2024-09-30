@@ -18,3 +18,14 @@ def compute_ordered_distributions(
     ] for corpus_count in corpora_counts]
     vectors = [vector / np.sum(vector) for vector in vectors]
     return vectors, orderings, corpora_counts
+
+
+def extract_ordered_examples(
+    request: Request, corpora: list[Corpus]
+) -> tuple[list[list[float]], list[str], list[dict[str, int]]]:
+    clustering_parameter = ["#".join(request.named_entities()["nodes"])]
+    corpora_examples = [
+        corpus.search(request, clustering_parameter=clustering_parameter)
+        for corpus in corpora
+    ]
+    return corpora_examples
