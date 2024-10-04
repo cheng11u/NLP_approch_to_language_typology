@@ -6,6 +6,8 @@ from tools.dissimilarity import CosineSimilarity
 from tools.rewriting import add_implicit_subject
 import grewpy
 
+"""Computes and compare the ADJ/NOUN distribution of different UD_CORPORA"""
+
 grewpy.set_config("ud")  # ud or basic
 
 pattern_str = "pattern {V[upos=VERB];V-[nsubj|isubj]->S; V-[obj]->O}"

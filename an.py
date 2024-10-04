@@ -3,8 +3,9 @@ from grewpy import Corpus, Request
 from tools.ordering import compute_ordered_distributions
 from tools.charts.heatmap import HeatMap
 from tools.dissimilarity import CosineSimilarity, TotalVariationDistance
-from tools.rewriting import add_implicit_subject
 import grewpy
+
+"""Computes and compare the ADJ/NOUN distribution of different UD_CORPORA"""
 
 grewpy.set_config("ud")  # ud or basic
 
