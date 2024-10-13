@@ -41,7 +41,7 @@ c = CosineSimilarity()
 distance_matrix = c.distanceMatrix(distributions)
 for i, row in enumerate(distance_matrix):
     for j, value in enumerate(distance_matrix[i]):
-        distance_matrix[i][j] = 1 - value
+        distance_matrix[i][j] = value
 
 
 print("Ordering counts")
@@ -52,5 +52,5 @@ for i, corpus_name in enumerate(corpora_names):
 
 hm = HeatMap()
 fig, ax = hm.exportFigure(distance_matrix, corpora_names)
-ax.set_title("Comparision of AN distributions among French UD banks")
+ax.set_title("Comparision of AN distributions among French UD corpora")
 plt.show()
