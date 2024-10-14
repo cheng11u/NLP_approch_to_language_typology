@@ -5,7 +5,6 @@ from tools.charts.heatmap import HeatMap
 from tools.dissimilarity import CosineSimilarity
 from tools.rewriting import add_implicit_subject
 import grewpy
-
 """Computes and compare the ADJ/NOUN distribution of different UD_CORPORA"""
 
 grewpy.set_config("ud")  # ud or basic
@@ -41,5 +40,7 @@ for i, corpus_name in enumerate(corpora_names):
 
 hm = HeatMap()
 fig, ax = hm.exportFigure(distance_matrix, corpora_names)
-ax.set_title("Comparision of SVO distributions among French UD banks")
-plt.show()
+ax.set_title("")
+#ax.set_title("Comparision of SVO distributions among French UD banks")
+#plt.show()
+fig.savefig('svo.png', bbox_inches='tight', dpi=400)

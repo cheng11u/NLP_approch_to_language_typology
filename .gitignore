@@ -1,5 +1,12 @@
 # Data files
+notebooks
+models/*
 data/*
 .venv/
 .ropeproject
 **/__pycache__
+
+config/*
+logs/
+*.swp
+

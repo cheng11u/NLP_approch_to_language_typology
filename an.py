@@ -4,7 +4,6 @@ from tools.ordering import compute_ordered_distributions
 from tools.charts.heatmap import HeatMap
 from tools.dissimilarity import CosineSimilarity, TotalVariationDistance
 import grewpy
-
 """Computes and compare the ADJ/NOUN distribution of different UD_CORPORA"""
 
 grewpy.set_config("ud")  # ud or basic
@@ -17,8 +16,8 @@ pattern {
 }
 '''
 corpora_names = [
-    "UD_French-GSD", "UD_German-GSD", "UD_English-GUM", "UD_Thai-PUD",
-    "UD_Japanese-PUD", "UD_Chinese-PUD", "UD_Swedish-PUD", "UD_Italian-ISDT"
+    "UD_French-GSD", "UD_Italian-PUD", "UD_Spanish-GSD", "UD_Latin-ITTB",
+    "UD_German-GSD", "UD_English-PUD", "UD_Dutch-Alpino"
 ]
 
 #corpora_names = [
@@ -30,10 +29,10 @@ corpora_path = [
 ]
 request = Request(pattern_str)
 corpora = [Corpus(path) for path in corpora_path]
-distance = TotalVariationDistance()
+distance = CosineSimilarity()
 distributions, labels, counts = compute_ordered_distributions(request, corpora)
 
-c = TotalVariationDistance()
+c = CosineSimilarity()
 distance_matrix = c.distanceMatrix(distributions)
 
 print("Ordering counts")
@@ -44,5 +43,7 @@ for i, corpus_name in enumerate(corpora_names):
 
 hm = HeatMap()
 fig, ax = hm.exportFigure(distance_matrix, corpora_names)
-ax.set_title("Comparision of AN distributions among French UD banks")
-plt.show()
+ax.set_title(
+    ""
+)
+fig.savefig('an.png', bbox_inches='tight', dpi=400)

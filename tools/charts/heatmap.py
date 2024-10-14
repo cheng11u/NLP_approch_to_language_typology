@@ -28,7 +28,7 @@ class HeatMap(Chart):
             for j in range(len(distanceMatrix[i])):
                 text = ax.text(j,
                                i,
-                               f"{distanceMatrix[i][j]:.4f}",
+                               f"{distanceMatrix[i][j]:.2f}".lstrip('0'),
                                ha="center",
                                va="center",
                                color="w")
