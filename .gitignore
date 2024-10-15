@@ -6,7 +6,7 @@ data/*
 .ropeproject
 **/__pycache__
 
-config/*
+#config/*
 logs/
 *.swp
 
