@@ -5,7 +5,7 @@ data/*
 .venv/
 .ropeproject
 **/__pycache__
-
+an_expe/test.py
 #config/*
 logs/
 *.swp

@@ -28,7 +28,7 @@ def validate_model(model, val_dataloader, verbose=True):
         a_0 += tp_ / (((y == 0).sum()) + epsi)
         a_tot += (tp + tp_) / y.shape[0]
     return float(a_0 / len(val_dataloader)), float(
-        a_1 / len(val_dataloader)), float(a_tot / len(val_dataloader))
+            a_1 / len(val_dataloader)), float(a_tot / len(val_dataloader))
 
 
 def tq(iterator, verbose, **args):
@@ -99,10 +99,10 @@ def train_model(model,
 def load_config(config_file):
     with open(config_file, 'r') as f:
         config = json.load(f)
-    return config
+        return config
 
 
-def main(config_file):
+def main(config_file, ablation):
     config = load_config(config_file)
     print("Configuration")
     print(config)
@@ -116,9 +116,9 @@ def main(config_file):
 
     op = OrderPredictor(embeddingModel=fasttext.load_model(
         config['embeddingModel']),
-                        num_layers=config['num_layers'],
-                        hidden_dim=config['hidden_dim'],
-                        dropout=config['dropout'])
+        num_layers=config['num_layers'],
+        hidden_dim=config['hidden_dim'],
+        dropout=config['dropout'])
 
     train_dataloader = DataLoader(train_ds,
                                   batch_size=config['batch_size'],
@@ -146,7 +146,35 @@ def main(config_file):
     print(best_model.batch_norm.weight)
     print("Biases")
     print(best_model.batch_norm.bias)
-    torch.save(model.state_dict(), "models/best.pt")
+    torch.save(best_model.state_dict(), "models/best.pt")
+    if ablation:
+        for ablation_mask in [(1,0),(0,1)]:
+            op = OrderPredictor(embeddingModel=fasttext.load_model(
+                config['embeddingModel']),
+                num_layers=config['num_layers'],
+                hidden_dim=config['hidden_dim'],
+                dropout=config['dropout'], ablation_mask=ablation_mask)
+            print(f"Ablation mask noun, adjective: {ablation_mask}")
+            model, best_model, train_loss, val_loss = train_model(
+                op,
+                lr=config['learning_rate'],
+                train_dataloader=train_dataloader,
+                val_dataloader=val_dataloader,
+                epochs=config['num_epochs'],
+                verbose=True,
+                lambda_reg=config['lambda_reg'],
+                mu_reg=config['mu_reg'])
+            print("Train losses :", [f"{l:.2f} " for l in train_loss])
+            print("Val scores :", [f"{l:.2f} " for l in val_loss])
+            test_acc = validate_model(best_model, test_dataloader)
+            print(
+                f"Test Accuracy: an : {test_acc[0]:.2f}, na : {test_acc[1]:.2f}, total : {test_acc[2]:.2f}"
+            )
+
+            print("Weights")
+            print(best_model.batch_norm.weight)
+            print("Biases")
+            print(best_model.batch_norm.bias)
 
 
 if __name__ == "__main__":
@@ -160,8 +188,10 @@ if __name__ == "__main__":
         help=
         "Path to the configuration file. Default is 'config/an_expe/config.json'."
     )
+    parser.add_argument('--ablation',type=bool, default=False)
+
 
     args = parser.parse_args()
 
     # Use the provided config file or fallback to default
-    main(args.config)
+    main(args.config, args.ablation )
