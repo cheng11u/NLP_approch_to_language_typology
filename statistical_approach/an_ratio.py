@@ -7,7 +7,7 @@ from tools.dissimilarity import CosineSimilarity, TotalVariationDistance, Cosine
 import grewpy
 import json
 import scipy.stats
-
+import glob
 
 grewpy.set_config("ud")  # ud or basic
 
@@ -17,7 +17,7 @@ pattern {
     A [upos="ADJ"];
     N -[amod]-> A;
     }
-            """
+    """
 # corpora_names = [
 #    "UD_French-GSD", "UD_German-GSD", "UD_English-GUM",
 #    "UD_Thai-PUD",
@@ -25,16 +25,37 @@ pattern {
 #    "UD_Italian-ISDT"
 # ]
 
-corpora_names = [
-    "UD_French-FQB", "UD_French-GSD", "UD_French-PUD", "UD_French-Sequoia",
-    "UD_French-Rhapsodie", "UD_French-ParTUT"
-]
-corpora_path = [
-    "data/ud-treebanks-v2.14/" + corpus_name for corpus_name in corpora_names
-]
+corpora = {
+    path.split("/")[-1]: path
+    for path in glob.glob("data/ud-*/UD_*")
+}
+
+#""", "UD_French-GSD", "UD_French-PUD", "UD_French-Sequoia",
+#    "UD_French-Rhapsodie", "UD_French-ParTUT"
+#]"""
+corpora_names = list(corpora.keys())
+corpora_path = list(corpora.values())
+
+pattern_str = """
+pattern {
+        N [upos="NOUN"];
+        A [upos="ADJ"];
+        N -[amod]-> A;
+}
+"""
 request = Request(pattern_str)
-corpora = [Corpus(path) for path in corpora_path]
+print(corpora_path)
+corpora_ = [Corpus (corpora_path_) for corpora_path_ in corpora_path]
+print(compute_ordered_distributions (request,corpora_))
+print(
+    len(examples[0][clusters[0]]) /
+    len(examples[0][clusters[0]] + examples[0][clusters[1]]))
+#
+#    (sum([len(examples[i][key]) for key in examples[i].keys()]))
+#    for i, corpus_name in enumerate(corpora_names)
+"""
 distance = TotalVariationDistance()
+
 similarity = CosineSimilarity()
 examples = extract_ordered_examples(request, corpora)
 examples_dict = {
@@ -54,7 +75,6 @@ examples_dict = {
     } for i, corpus_name in enumerate(corpora_names)]
 }
 
-variables_1 = ['N << A', 'A << N']
 variables_2 = ['A', 'N']
 distributions = {}
 for v1 in variables_1:
@@ -103,3 +123,4 @@ for threshold in range(0,51,10):
         #vector2 = [d1[key] if key in d1.keys() else 0 for key in keys]
         #contingency = [vector1,vector2]
         #print(scipy.stats.chi2_contingency(contingency).pvalue)
+"""

@@ -20,17 +20,21 @@ pattern {
 #    "UD_French-GSD", "UD_German-GSD", "UD_English-GUM", "UD_Thai-PUD",
 #    "UD_Japanese-PUD", "UD_Chinese-PUD", "UD_Swedish-PUD", "UD_Italian-ISDT"
 #]
-
+# FOR ALL CORPORA
 corpora_names = [
     "UD_French-FQB", "UD_French-GSD", "UD_French-PUD", "UD_French-Sequoia",
     "UD_French-Rhapsodie", "UD_French-ParTUT"
 ]
+# Exclusion of FQB corpus
+# corpora_names = corpora_names[1:]
+# Inclusion of only FQB
+#corpora_names = corpora_names[:1]
+
 corpora_path = [
     "data/ud-treebanks-v2.14/" + corpus_name for corpus_name in corpora_names
 ]
 request = Request(pattern_str)
 corpora = [Corpus(path) for path in corpora_path]
-distance = TotalVariationDistance()
 examples = extract_ordered_examples(request, corpora)
 examples_dict = {
     "corpora": [{
