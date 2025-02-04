@@ -7,6 +7,7 @@ from tools.charts.heatmap import HeatMap
 from tools.dissimilarity import CosineSimilarity, TotalVariationDistance
 import grewpy
 import json
+from tqdm import tqdm
 """Extract the ADJ/NOUN examples of different UD_CORPORA"""
 
 grewpy.set_config("ud")  # ud or basic
@@ -41,7 +42,7 @@ def compare(v1: list[float], v2: list[float]) -> float:
     return float(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
 
 
-def filter(word, threshold=0.5):
+def filter(word, threshold=0.2):
     e = fasttext_model[word]
     dist = max([compare(e, e_) for e_ in filter_embeddings])
     if dist > threshold:
@@ -49,6 +50,24 @@ def filter(word, threshold=0.5):
     return True
 
 
+examples_non_dict = {
+    "corpora": [{
+        "corpus": corpus_name,
+        "samples": {
+            key: [{
+                "A":
+                corpora[i][sentence["sent_id"]][sentence["matching"]["nodes"]
+                                                ["A"]]["lemma"],
+                "N":
+                corpora[i][sentence["sent_id"]][sentence["matching"]["nodes"]
+                                                ["N"]]["lemma"]
+            } for sentence in sentences
+                if filter(corpora[i][sentence["sent_id"]][
+                      sentence["matching"]["nodes"]["A"]]["lemma"])]
+            for key, sentences in examples[i].items()
+        }
+    } for i, corpus_name in tqdm(enumerate(corpora_names))]
+}
 examples_dict = {
     "corpora": [{
         "corpus": corpus_name,
@@ -61,10 +80,13 @@ examples_dict = {
                 corpora[i][sentence["sent_id"]][sentence["matching"]["nodes"]
                                                 ["N"]]["lemma"]
             } for sentence in sentences
-                  if not filter(corpora[i][sentence["sent_id"]][
-                      sentence["matching"]["nodes"]["N"]]["lemma"])]
+                 if not  filter(corpora[i][sentence["sent_id"]][
+                      sentence["matching"]["nodes"]["A"]]["lemma"])]
             for key, sentences in examples[i].items()
         }
-    } for i, corpus_name in enumerate(corpora_names)]
+    } for i, corpus_name in tqdm(enumerate(corpora_names))]
 }
-print(json.dumps(examples_dict))
+with open("data/an_medical.json","w") as f:
+    f.write(json.dumps(examples_dict, ensure_ascii=False))
+with open("data/an_non_medical.json","w") as f:
+    f.write(json.dumps(examples_non_dict, ensure_ascii=False))

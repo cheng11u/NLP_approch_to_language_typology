@@ -31,7 +31,7 @@ def validate_model(model, val_dataloader, verbose=True):
         a_tot += (tp + tp_) / y.shape[0]
         bad_indexes = ([i for i, u in enumerate((y_hat >= 0) != (y == 1)) if u])
         if verbose:
-            print("Errors", [x['A'][i] + "|" + x['N'][i] for i in bad_indexes])
+            print("Errors", [x['A'][i] + "|" + x['N'][i] + str(int(y[i,0])) for i in bad_indexes])
     return float(a_0 / len(val_dataloader)), float(
         a_1 / len(val_dataloader)), float(a_tot / len(val_dataloader))
 
