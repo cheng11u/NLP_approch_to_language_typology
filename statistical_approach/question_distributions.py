@@ -74,7 +74,6 @@ def get_counts_matrix(pattern: str, conllu_paths: list[str]):
         for pattern, number in counts[i].items():
             # For each pattern (A << N and N << A), add the number of occurences
             values_dict[pattern] = number
-
         # For each pattern, if the pattern is not found, the number of
         # occurences is 0
         if an not in values_dict.keys():
@@ -86,10 +85,15 @@ def get_counts_matrix(pattern: str, conllu_paths: list[str]):
     return counts_matrix
 
 
-for lang in ['Arabic']:
-    conllu_paths = [f'/tmp/{lang.lower()}_questions.conllu', f'/tmp/{lang.lower()}_non_questions.conllu']
+
+for lang in ['English', 'French']:
+    question_corpus_path = f'question_expe/{lang.lower()}_questions.conllu'
+    non_question_corpus_path = f'question_expe/{lang.lower()}_non_questions.conllu'
+    conllu_paths = [question_corpus_path, non_question_corpus_path]
     separate_conllu(lang, conllu_paths[0], conllu_paths[1])
     counts_matrix = get_counts_matrix(pattern_str, conllu_paths)
     stat, pval = fisher_exact(counts_matrix)
     print(counts_matrix)
     print(f"Fisher exact test between {conllu_paths[0]} and {conllu_paths[1]}: p = {pval:.4f}")
+
+    
