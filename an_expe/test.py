@@ -19,16 +19,19 @@ def validate_model(model, val_dataloader, verbose=True):
     a_1 = 0
     a_tot = 0
     for i, batch in enumerate(val_dataloader):
-        print(batch)
+        #print(batch)
         x, y = batch
         y_hat = model(x)
-        print(y_hat)
+        #print(y_hat)
         y = y.unsqueeze(-1)
         tp = ((y_hat >= 0) & (y == 1)).sum()
         a_1 += tp / (((y == 1).sum()) + epsi)
         tp_ = ((y_hat < 0) & (y == 0)).sum()
         a_0 += tp_ / (((y == 0).sum()) + epsi)
         a_tot += (tp + tp_) / y.shape[0]
+        bad_indexes = ([i for i, u in enumerate((y_hat >= 0) != (y == 1)) if u])
+        if verbose:
+            print("Errors", [x['A'][i] + "|" + x['N'][i] for i in bad_indexes])
     return float(a_0 / len(val_dataloader)), float(
         a_1 / len(val_dataloader)), float(a_tot / len(val_dataloader))
 
@@ -37,8 +40,6 @@ def tq(iterator, verbose, **args):
     if verbose:
         return tqdm(iterator, **args)
     return iterator
-
-
 
 
 def load_config(config_file):
@@ -66,8 +67,7 @@ def main(config_file):
 
     test_dataloader = DataLoader(ds, batch_size=config['batch_size'])
 
-
-    op.load_state_dict (torch.load ("models/best.pt"))
+    op.load_state_dict(torch.load("models/best.pt"))
     best_model = op
     test_acc = validate_model(best_model, test_dataloader)
     print(
