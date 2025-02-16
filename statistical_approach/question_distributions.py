@@ -19,7 +19,7 @@ pattern {
 """
 
 def separate_conllu(lang: str, path_pos: str, path_neg: str, annot_scheme: str = 'UD',
-                  corpora_path_dir: str = 'data/ud-treebanks-v2.14/'):
+                  corpora_path_dir: str = 'data/ud-treebanks/'):
     """
     This function merges all the corpora of a given language, and separates the data into
     two files, one containing interrogative sentences, and the other one containing all
@@ -41,7 +41,7 @@ def separate_conllu(lang: str, path_pos: str, path_neg: str, annot_scheme: str =
 def get_counts_matrix(pattern: str, conllu_paths: list[str]):
     """
     Gives a matrix where the rows are the patterns (for instance A << N and N << A),
-    the first column represents corpus that matches with the criterion (interrogative 
+    the first column represents corpus that matches with the criterion (interrogative
     sentences for example), and the second one represents the corpus that does not match.
 
     Parameters
@@ -96,4 +96,4 @@ for lang in ['English', 'French']:
     print(counts_matrix)
     print(f"Fisher exact test between {conllu_paths[0]} and {conllu_paths[1]}: p = {pval:.4f}")
 
-    
+

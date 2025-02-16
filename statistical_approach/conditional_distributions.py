@@ -30,7 +30,7 @@ corpora_names = [
     "UD_French-Rhapsodie", "UD_French-ParTUT"
 ]
 corpora_path = [
-    "data/ud-treebanks-v2.14/" + corpus_name for corpus_name in corpora_names
+    "data/ud-treebanks/" + corpus_name for corpus_name in corpora_names
 ]
 request = Request(pattern_str)
 corpora = [Corpus(path) for path in corpora_path]

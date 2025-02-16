@@ -19,7 +19,7 @@ def extract_adj_noun_examples(corpora_names):
     }
     """
 
-    corpora_path = ["data/ud-treebanks-v2.14/" + corpus_name for corpus_name in corpora_names]
+    corpora_path = ["data/ud-treebanks/" + corpus_name for corpus_name in corpora_names]
     request = Request(pattern_str)
     corpora = [Corpus(path) for path in corpora_path]
     examples = extract_ordered_examples(request, corpora)

@@ -133,8 +133,10 @@ def main(config_file, ablation):
         val_dataloader=val_dataloader,
         epochs=config['num_epochs'],
         verbose=True,
+        pos_weight=config['positive_weight'],
         lambda_reg=config['lambda_reg'],
         mu_reg=config['mu_reg'])
+
     print("Train losses :", [f"{l:.2f} " for l in train_loss])
     print("Val scores :", [f"{l:.2f} " for l in val_loss])
     test_acc = validate_model(best_model, test_dataloader)
