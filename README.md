@@ -13,7 +13,8 @@ Run the following command:
 
 ## Running the adj-noun order classifier
 You will need to use a pretrained fattext word embedding model [here](https://fasttext.cc/docs/en/crawl-vectors.html). You can specify the path of the model using the embeddingModel field in the configuration file. It is by default : models/cc.fr.300.bin"
-Then create a dataset of ordered adjective noun pairs with the command : 
+
+### Preparing 
 ``python -m an_expe.an_examples_extraction > data/an.json``
 Finally, you can train and test your classifier :
 ``python -m an_expe.train`` to use the default configuration file
