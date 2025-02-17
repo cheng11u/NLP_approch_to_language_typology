@@ -16,7 +16,10 @@ The goal of the project is to compare the distribution of some syntactic pattern
 To do so, we use several tools, such as Grew and grewpy (see installation section). 
 
 We use the UD 2.14 treebanks for our experiments. 
-These treebanks can be downloaded [here](https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502#show-files). They should be placed in the data/ud-treebanks/ folder : to download the latest (`udv2.15`) annotations you can run the commands :
+These treebanks can be downloaded [here](https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502#show-files). They should be placed in the data/ud-treebanks/ folder.  
+
+To download the latest (`udv2.15`) annotations you can run the commands :
+
 ```bash
 curl --remote-name-all https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5787{/ud-treebanks-v2.15.tgz,/ud-documentation-v2.15.tgz,/ud-tools-v2.15.tgz}
 tar -xvzf ud-treebanks-v2.15.tgz 
@@ -40,7 +43,9 @@ The UD treebanks are expected to be found in the `data/ud-treebanks-v2.14` folde
 #### `an_expe.an_examples_extraction` script
 In order to extract adjective-noun pairs from a collection of corpora, use the `an_expe.an_examples_extraction` script. It expects a list of corpora names as arguments, and outputs in the standard output the list of adjective-noun pairs in json format.
 
-Example use 1: to form a adjective noun pairs corpus from the UD_German-LIT corpus and save them in the data folder, run :```python -m an_expe.an_examples_extraction UD_German-LIT>data/an_lit_german.json ``` 
+Example use 1: to form a adjective noun pairs corpus from the UD_German-LIT corpus and save them in the data folder, run :
+
+```python -m an_expe.an_examples_extraction UD_German-LIT>data/an_lit_german.json ``` 
 
 Example use 2 : to form a adjective noun pairs corpus from all the Italian corpora (except the `UD_Italian-Old` one) and save them in the `data/an_it.json` file, run :
 
@@ -96,7 +101,7 @@ Example use of the training script :
 `python -m an_expe.train --config data/config/an_expe/config_gold.json`
 
 ### Testing  
-The training script reports test metrics on an unseen subset of the dataset of size specified by teh split filed of the configuration file. Testing on a different dataset can be doing using the `an_expe.test` script. Like training, it requires a configuration file in order to decide what architecture to use, and will use the weights saved in the `models/best.pt` file. The file under the `dataset_path` will be used for testing the model: this means a given model must be tested using the same configuration file it was trained with, simply changing the path of the dataset used for training.
+The training script reports test metrics on an unseen subset of the dataset of size specified by the split field of the configuration file. Testing on a different dataset can be doing using the `an_expe.test` script. Like training, it requires a configuration file in order to decide what architecture to use, and will use the weights saved in the `models/best.pt` file. The file under the `dataset_path` will be used for testing the model: this means a given model must be tested using the same configuration file it was trained with, simply changing the path of the dataset used for training.
 
 Example use of the testing script :
 `python -m an_expe.train --config data/config/an_expe/config_gold_fqb.json`
