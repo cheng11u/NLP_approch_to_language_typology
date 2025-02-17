@@ -41,11 +41,22 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Running the models additionnally requires a fasttext model for each language, available [here](https://fasttext.cc/docs/en/crawl-vectors.html). The default configuration file for running and testing on French datasets expects the model ".bin" file to be located in `models/cc.fr.301.bin`. We thus suggest to run : 
+
+```
+mkdir models
+cd models
+curl https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.fr.300.bin.gz
+gunzip cc.fr.300.bin.gz
+```
+
+
+ 
 ## Running the adj-noun order classifier
 
 ### Data
 
-The UD treebanks are expected to be found in the `data/ud-treebanks-v2.14` folder.
+The UD treebanks are expected to be found in the `data/ud-treebanks` folder.
 #### `an_expe.an_examples_extraction` script
 In order to extract adjective-noun pairs from a collection of corpora, use the `an_expe.an_examples_extraction` script. It expects a list of corpora names as arguments, and outputs in the standard output the list of adjective-noun pairs in json format.
 
@@ -110,7 +121,10 @@ Example use of the training script :
 The training script reports test metrics on an unseen subset of the dataset of size specified by the split field of the configuration file. Testing on a different dataset can be doing using the `an_expe.test` script. Like training, it requires a configuration file in order to decide what architecture to use, and will use the weights saved in the `models/best.pt` file. The file under the `dataset_path` will be used for testing the model: this means a given model must be tested using the same configuration file it was trained with, simply changing the path of the dataset used for training.
 
 Example use of the testing script :
-`python -m an_expe.train --config data/config/an_expe/config_gold_fqb.json`
+
+```bash 
+python -m an_expe.test --config data/config/an_expe/config_gold.json
+```
 to test only on the french FQB tree bank.
 
 The script also prints the samples on which the model prediction is wrong, along with the label (1 meaning NA, 0 NA).
