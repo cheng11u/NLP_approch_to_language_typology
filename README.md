@@ -125,7 +125,6 @@ Example use of the testing script :
 ```bash 
 python -m an_expe.test --config data/config/an_expe/config_gold.json
 ```
-to test only on the french FQB tree bank.
 
 The script also prints the samples on which the model prediction is wrong, along with the label (1 meaning NA, 0 NA).
 
