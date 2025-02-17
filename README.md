@@ -15,6 +15,8 @@ The goal of the project is to compare the distribution of some syntactic pattern
 
 To do so, we use several tools, such as Grew and grewpy (see installation section). 
 
+The script `example_usage.sh` can be ran and contains all commands to install dependencies, download tree banks, create datasets and run an experiment by training an adjective noun order classifier on the French-FQB treebank and testing it on the French-PUD treebank.
+
 We use the UD 2.14 treebanks for our experiments. 
 These treebanks can be downloaded [here](https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502#show-files). They should be placed in the data/ud-treebanks/ folder.  
 
@@ -31,7 +33,7 @@ mv ud-treebanks-v2.15 ud-treebanks
 
 ## Installation
 
-The project relies on Grew and the GrewPy library in order to parse and query tree banks.The instructions for installation are given [here](https://grew.fr/usage/install/). These instructions are available for Linux and Mac OS X. If you are using Windows, you can use WSL.
+The project relies on Grew and the GrewPy library in order to parse and query tree banks. The instructions for installation are given [here](https://grew.fr/usage/install/). These instructions are available for Linux and Mac OS X. If you are using Windows, you can use WSL.
 
 After installing Grew, create a virtual environment and install the project requirements by running the following commands :
 
