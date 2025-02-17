@@ -3,7 +3,7 @@ from grewpy import Corpus, Request
 from tools.ordering import compute_ordered_distributions
 from tools.charts.heatmap import HeatMap
 from tools.dissimilarity import CosineSimilarity, TotalVariationDistance
-from tools.search_corpora import select_by_language  
+from tools.search_corpora import select_corpora
 import grewpy
 """Computes and compare the ADJ/NOUN distribution of different UD_CORPORA"""
 
@@ -29,7 +29,7 @@ pattern {
 #    "data/ud-treebanks-v2.14/" + corpus_name for corpus_name in corpora_names
 #]
 
-corpora_path = select_by_language("UD", "data/ud-treebanks-v2.14", "French", 1000)
+corpora_path = select_corpora("UD", "data/ud-treebanks", "French", nb_sentences_min=1000)
 corpora_names = [path.split("/")[-1] for path in corpora_path]
 request = Request(pattern_str)
 corpora = [Corpus(path) for path in corpora_path]
