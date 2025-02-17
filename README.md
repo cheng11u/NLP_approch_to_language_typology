@@ -21,6 +21,8 @@ These treebanks can be downloaded [here](https://lindat.mff.cuni.cz/repository/x
 To download the latest (`udv2.15`) annotations you can run the commands :
 
 ```bash
+mkdir data
+cd data
 curl --remote-name-all https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5787{/ud-treebanks-v2.15.tgz,/ud-documentation-v2.15.tgz,/ud-tools-v2.15.tgz}
 tar -xvzf ud-treebanks-v2.15.tgz 
 mv ud-treebanks-v2.15 ud-treebanks
