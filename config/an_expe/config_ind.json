@@ -1,9 +1,9 @@
 {
 
     "seed": 1,
-    "split": [0.72, 0.18, 0.1],
-    "dataset_path": "data/an_it.json",
-    "embeddingModel": "models/cc.it.300.bin", 
+    "split": [0.6, 0.25, 0.15],
+    "dataset_path": "data/an_ind.json",
+    "embeddingModel": "models/cc.ind.300.bin", 
     "num_layers": 4,
     "hidden_dim": 100,
     "dropout": 0.2,
@@ -11,7 +11,7 @@
     "lambda_reg": 0,
     "learning_rate": 0.02,
     "batch_size": 16,
-    "positive_weight": 0.1,
-    "num_epochs": 12
+    "positive_weight": 1,
+    "num_epochs": 22
 }
 

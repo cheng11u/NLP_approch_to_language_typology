@@ -18,11 +18,14 @@ def validate_model(model, val_dataloader, verbose=True):
     a_0 = 0
     a_1 = 0
     a_tot = 0
+    na_total = an_total =  0
     for i, batch in enumerate(val_dataloader):
         #print(batch)
         x, y = batch
         y_hat = model(x)
         #print(y_hat)
+        na_total += y.sum()
+        an_total += (y==0).sum()
         y = y.unsqueeze(-1)
         tp = ((y_hat >= 0) & (y == 1)).sum()
         a_1 += tp / (((y == 1).sum()) + epsi)
@@ -32,6 +35,8 @@ def validate_model(model, val_dataloader, verbose=True):
         bad_indexes = ([i for i, u in enumerate((y_hat >= 0) != (y == 1)) if u])
         if verbose:
             print("Errors", [x['A'][i] + "|" + x['N'][i] + str(int(y[i,0])) for i in bad_indexes])
+    if verbose:
+        print("Number of NA :", na_total.numpy(),"Number of AN :",an_total.numpy())
     return float(a_0 / len(val_dataloader)), float(
         a_1 / len(val_dataloader)), float(a_tot / len(val_dataloader))
 

@@ -8,4 +8,4 @@ data/*
 #config/*
 logs/
 *.swp
-
+log*
