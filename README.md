@@ -31,9 +31,13 @@ mv ud-treebanks-v2.15 ud-treebanks
 
 The project relies on Grew and the GrewPy library in order to parse and query tree banks.The instructions for installation are given [here](https://grew.fr/usage/install/). These instructions are available for Linux and Mac OS X. If you are using Windows, you can use WSL.
 
-After installing Grew, run the following command:
+After installing Grew, create a virtual environment and install the project requirements by running the following commands :
 
-```pip install -r requirements.txt```
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Running the adj-noun order classifier
 
